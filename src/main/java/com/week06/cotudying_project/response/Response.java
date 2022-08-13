@@ -24,4 +24,10 @@ public class Response {
     public static Response failure(int code, String msg) { // 6
         return new Response(false, code, new Failure(msg));
     }
+
+
+
+    public static Response success(int code, String msg) {
+        return new Response(true, code, new Success<>(msg));
+    }
 }
