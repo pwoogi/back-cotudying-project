@@ -25,7 +25,7 @@ public class RegisterDto {
 
     @ApiModelProperty(value = "이메일", notes = "이메일 형식에 맞춰 작성해주세요", required = true, example = "xxx@gmail.com")
     @NotBlank(message = "이메일을 입력해주세요")
-    @Size(min=2, message = "올바른 이메일 형식이 아닙니다") //TODO : 정규식 찾아보자
+    @Size(min=6, message = "올바른 이메일 형식이 아닙니다") //TODO : 정규식 찾아보자
     private String email;
 
 

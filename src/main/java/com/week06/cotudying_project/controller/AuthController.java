@@ -1,43 +1,28 @@
 package com.week06.cotudying_project.controller;
 
+import com.week06.cotudying_project.dto.RegisterDto;
+import com.week06.cotudying_project.response.Response;
+import com.week06.cotudying_project.service.AuthService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import static com.week06.cotudying_project.response.Response.success;
 
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("/api")
+@RestController("/api")
 public class AuthController {
 
     private final AuthService authService;
 
-    @ApiOperation(value = "회원가입", notes = "회원가입 진행")
+    @ApiOperation(value = "회원가입", notes="회원가입 진행")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
-    public Response register(@Valid @RequestBody RegisterDto registerDto) {
-        authService.signUp(registerDto);
-        return success();
+    public Response register(@RequestBody RegisterDto registerDto) {
+        return success(authService.register(registerDto));
     }
-
-    @ApiOperation(value = "로그인", notes = "로그인을 한다.")
-    @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    public Response signIn(@Valid @RequestBody LoginRequestDto req) {
-        return success(authService.signIn(req));
-    }
-
-
-    @ApiOperation(value = "토큰 재발급", notes = "토큰 재발급 요청")
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/reissue")
-    public Response reIssue(@RequestBody TokenRequestDto tokenRequestDto) {
-        return success(authService.reissue(tokenRequestDto));
-    }
-
 }
