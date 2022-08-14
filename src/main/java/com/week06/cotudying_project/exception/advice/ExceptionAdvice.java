@@ -1,6 +1,7 @@
 package com.week06.cotudying_project.exception.advice;
 
 import com.week06.cotudying_project.exception.LoginFailureException;
+import com.week06.cotudying_project.exception.MemberNotEqualsException;
 import com.week06.cotudying_project.exception.MemberNotFoundException;
 import com.week06.cotudying_project.exception.MemberUsernameAlreadyExistsException;
 import com.week06.cotudying_project.response.Response;
@@ -48,7 +49,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(MemberUsernameAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public Response memberEmailAlreadyExistsException(MemberUsernameAlreadyExistsException e) {
-        return Response.failure(409, e.toString() + "은 중복된 아이디 입니다.");
+        return Response.failure(409, e.getMessage() + "은 중복된 아이디 입니다.");
     }
 
 
@@ -61,6 +62,13 @@ public class ExceptionAdvice {
         return Response.failure(404, "요청한 회원을 찾을 수 없습니다.");
     }
 
+    // 401 응답
+    // 유저 정보가 일치하지 않음
+    @ExceptionHandler(MemberNotEqualsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Response memberNotEqualsException() {
+        return Response.failure(401, "유저 정보가 일치하지 않습니다.");
+    }
 
     // 404 응답
     // 요청한 자원을 찾을 수 없음
