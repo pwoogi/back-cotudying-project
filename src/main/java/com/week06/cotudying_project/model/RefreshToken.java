@@ -1,4 +1,4 @@
-package com.week06.cotudying_project.jwt;
+package com.week06.cotudying_project.model;
 
 import lombok.Builder;
 import lombok.Getter;
