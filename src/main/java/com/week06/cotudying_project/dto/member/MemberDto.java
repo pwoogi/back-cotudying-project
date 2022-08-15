@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 public class MemberDto {
     private Long id;
     private String username; // 로그인 아이디
-    private String email;
+    private String nickname;
 
     public static MemberDto toDto(Member member) {
-        return new MemberDto(member.getId(), member.getUsername(), member.getEmail());
+        return new MemberDto(member.getId(), member.getUsername(), member.getNickname());
     }
 
 }

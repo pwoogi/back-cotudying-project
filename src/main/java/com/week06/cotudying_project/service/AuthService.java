@@ -35,7 +35,7 @@ public class AuthService {
         Member member = new Member();
         member.setUsername(req.getUsername());
         member.setPassword(passwordEncoder.encode(req.getPassword()));
-        member.setEmail(req.getEmail());
+        member.setNickname(req.getNickname());
         member.setAuthority(Authority.ROLE_USER);
         memberRepository.save(member);
     }
@@ -58,6 +58,7 @@ public class AuthService {
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+
 
         // 4. RefreshToken 저장
         RefreshToken refreshToken = RefreshToken.builder()
@@ -93,6 +94,8 @@ public class AuthService {
 
         // 5. 새로운 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+
+
 
         // 6. 저장소 정보 업데이트
         RefreshToken newRefreshToken = refreshToken.updateValue(tokenDto.getRefreshToken());

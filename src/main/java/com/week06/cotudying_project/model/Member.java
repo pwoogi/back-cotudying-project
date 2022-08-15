@@ -27,17 +27,18 @@ public class Member extends AuditingFields {
     private String password;
 
     @Column(nullable = false)
-    private String email;
+    private String nickname;
+
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
 
     @Builder
-    public Member(String username, String password, String email, Authority authority) {
+    public Member(String username, String password, String nickname, Authority authority) {
         this.username = username;
         this.password = password;
-        this.email = email;
+        this.nickname = nickname;
         this.authority = authority;
     }
 
