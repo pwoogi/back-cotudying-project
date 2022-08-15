@@ -31,14 +31,14 @@ public class BoardsService {
 
     // 전체 게시물 조회
     @Transactional
-    public List<BoardsShowResponseDto> getBoards() {
+    public Response getBoards() {
         List<Boards> boardList = boardsRepository.findAllByOrderByModifiedAtDesc();
         List<BoardsShowResponseDto> boardsShowResponseDtoList = new ArrayList<>();
 
         for(Boards boards : boardList) {
             boardsShowResponseDtoList.add(new BoardsShowResponseDto(boards));
         }
-        return boardsShowResponseDtoList;
+        return Response.success(boardsShowResponseDtoList);
     }
 
     // 게시물 상세 조회

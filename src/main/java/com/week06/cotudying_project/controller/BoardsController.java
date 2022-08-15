@@ -22,7 +22,7 @@ public class BoardsController {
     // 전체 게시물 조회
     @GetMapping("/board")
     public Response getBoards() {
-        return Response.success(boardsService.getBoards());
+        return boardsService.getBoards();
     }
 
     // 게시물 상세 조회
