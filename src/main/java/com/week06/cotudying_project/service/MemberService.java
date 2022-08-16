@@ -47,9 +47,10 @@ public class MemberService {
         if (!authentication.getName().equals(member.getUsername())) {
             throw new MemberNotEqualsException();
         }else{
-            member.setEmail(updateInfo.getEmail());
+            member.setNickname(updateInfo.getNickname());
             return MemberDto.toDto(member);
         }
+
     }
 
 

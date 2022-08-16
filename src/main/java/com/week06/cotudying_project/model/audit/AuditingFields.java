@@ -1,5 +1,6 @@
 package com.week06.cotudying_project.model.audit;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 @MappedSuperclass
 public class AuditingFields {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -28,6 +30,7 @@ public class AuditingFields {
 //    @Column(nullable = false, updatable = false, length = 100)
 //    private String createdBy; //생성자
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @LastModifiedDate
     @Column(nullable = false)

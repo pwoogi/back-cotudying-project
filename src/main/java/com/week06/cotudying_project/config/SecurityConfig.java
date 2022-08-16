@@ -48,9 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // CORS
         http.cors().configurationSource(request -> {
             var cors = new CorsConfiguration();
-            cors.setAllowedOrigins(List.of("http://localhost:3000"));
+            cors.setAllowedOrigins(List.of("*"));
             cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
             cors.setAllowedHeaders(List.of("*"));
+
             return cors;
         });
 
@@ -83,11 +84,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/api/user/{id}").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.DELETE, "/api/user/{id}").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 
-                .antMatchers(HttpMethod.POST, "/api/board").authenticated()
+                .antMatchers(HttpMethod.GET, "/api/board").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/board/write").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.GET, "/api/board/{id}").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.GET, "/api/board/{category}").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.POST, "/api/board/{id}").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-                .antMatchers(HttpMethod.PUT, "/api/board/{id}").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-                .antMatchers(HttpMethod.DELETE, "/api/board/{id}").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.PUT, "/api/board/{id}/update").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.DELETE, "/api/board/{id}/delete").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.DELETE, "/api/board/{cotudyid}/outstudy").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 
 
                 .anyRequest().hasAnyRole("ROLE_ADMIN")
