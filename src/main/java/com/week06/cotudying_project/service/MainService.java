@@ -86,8 +86,9 @@ public class MainService {
         }
 
         boardCreateResponse.setId(board.getId());
+        boardCreateResponse.setRegisterUserId(board.getRegisterUserId());
         boardCreateResponse.setCategory(board.getCategory());
-        boardCreateResponse.setName(board.getName());
+        boardCreateResponse.setTitle(board.getTitle());
         boardCreateResponse.setContent(board.getContent());
         boardCreateResponse.setNum(board.getNum());
         boardCreateResponse.setParticipant(board.getParticipant());

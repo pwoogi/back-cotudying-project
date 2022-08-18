@@ -17,7 +17,7 @@ public class RegisterValidation {
 
 
         String category = requestDto.getCategory();
-        String name = requestDto.getName();
+        String title = requestDto.getTitle();
         String content = requestDto.getContent();
         Long num = requestDto.getNum();
         // currentMemberNum은 스터디 생성시 1로 고정(스터디 개설자만 포함), 생성자 내용에 포함
@@ -28,7 +28,7 @@ public class RegisterValidation {
         // 공백, null 입력 제한
         if (category.trim().isEmpty()) {
             throw new IllegalArgumentException("카테고리를 선택해 주세요.");
-        } else if (name.trim().isEmpty()) {
+        } else if (title.trim().isEmpty()) {
             throw new IllegalArgumentException("제목을 입력해 주세요.");
         } else if (content.trim().isEmpty()) {
             throw new IllegalArgumentException("내용을 입력해 주세요.");

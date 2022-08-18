@@ -18,7 +18,7 @@ public class UpdateValidation {
                 () -> new IllegalArgumentException("BoardId를 찾을 수 없습니다.")
         );
         String category = requestDto.getCategory();
-        String name = requestDto.getName();
+        String title = requestDto.getTitle();
         String content = requestDto.getContent();
         Long num = requestDto.getNum();
         String registerStatus = requestDto.getRegisterStatus();
@@ -29,7 +29,7 @@ public class UpdateValidation {
         // 공백, null 입력 제한
         if (category.trim().isEmpty()) {
             throw new IllegalArgumentException("카테고리를 공백으로 수정할 수 없습니다.");
-        } else if (name.trim().isEmpty()) {
+        } else if (title.trim().isEmpty()) {
             throw new IllegalArgumentException("제목을 공백으로 수정할 수 없습니다.");
         } else if (content.trim().isEmpty()) {
             throw new IllegalArgumentException("내용을 공백으로 수정할 수 없습니다.");

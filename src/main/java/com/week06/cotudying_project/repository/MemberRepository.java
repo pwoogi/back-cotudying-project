@@ -1,6 +1,7 @@
 package com.week06.cotudying_project.repository;
 
 
+import com.week06.cotudying_project.dto.member.MemberDto;
 import com.week06.cotudying_project.model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 

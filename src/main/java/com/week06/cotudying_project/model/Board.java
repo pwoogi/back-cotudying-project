@@ -31,7 +31,7 @@ public class Board extends AuditingFields {
     private String title;
 
     @Column(nullable = false)
-    private String name;
+    private Long registerUserId;
 
     @Column(nullable = false, length = 300)
     @Lob
@@ -59,10 +59,10 @@ public class Board extends AuditingFields {
     @Column(nullable = false)
     private String registerStatus;
 
-    public Board(BoardCreateRequest registerDto,  String username) {
-        this.name = registerDto.getName();
+    public Board(BoardCreateRequest registerDto, Long registerUserId, String username) {
         this.title = registerDto.getTitle();
         this.username = username;
+        this.registerUserId=registerUserId;
         this.num = registerDto.getNum();
         this.category = registerDto.getCategory();
         this.startDate = registerDto.getStartDate();
@@ -74,7 +74,6 @@ public class Board extends AuditingFields {
 
     public void updateBoard(BoardUpdateDto boardUpdateDto){
         this.category = boardUpdateDto.getCategory();
-        this.name = boardUpdateDto.getName();
         this.content = boardUpdateDto.getContent();
         this.category = boardUpdateDto.getCategory();
         this.num = boardUpdateDto.getNum();

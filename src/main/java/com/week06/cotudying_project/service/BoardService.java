@@ -39,7 +39,7 @@ public class BoardService {
         Member member = memberRepository.findByUsername(username).orElseThrow(MemberNotFoundException::new);
 
 
-        Board board = new Board(req, username);
+        Board board = new Board(req, member.getId(), username);
         // isEmpty() -> Collection 타입일때만
         BoardInfo boardInfo = new BoardInfo(member, boardRepository.save(board));
 

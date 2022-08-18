@@ -17,8 +17,6 @@ public class BoardCreateResponse {
 
     private Long registerUserId;
 
-    private String name;
-
     private String title;
 
     private String content;
