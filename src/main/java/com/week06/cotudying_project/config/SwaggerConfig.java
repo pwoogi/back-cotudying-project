@@ -23,7 +23,7 @@ import java.util.List;
 // http://localhost:8080/swagger-ui/index.html
 public class SwaggerConfig {
 
-    //나중에 이미지파일 등의 기능 구현을 할 수도 있으니.. 우선 넣어놓자
+    //나중에 이미진파일 등의 기능 구현을 할 수도 있으니.. 우선 넣어놓자
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.OAS_30)
@@ -38,7 +38,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("")
+                .title("Community")
                 .description("")
                 .license("")
                 .licenseUrl("")

@@ -2,9 +2,7 @@ package com.week06.cotudying_project.service;
 
 import com.week06.cotudying_project.config.jwt.TokenProvider;
 import com.week06.cotudying_project.dto.*;
-import com.week06.cotudying_project.dto.member.MemberDto;
 import com.week06.cotudying_project.exception.LoginFailureException;
-import com.week06.cotudying_project.exception.MemberNotFoundException;
 import com.week06.cotudying_project.exception.MemberUsernameAlreadyExistsException;
 import com.week06.cotudying_project.model.Authority;
 import com.week06.cotudying_project.model.Member;
@@ -15,13 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,9 +40,8 @@ public class AuthService {
         memberRepository.save(member);
     }
 
-
     @Transactional
-    public TokenResponseDto logIn(LoginRequestDto req, HttpServletResponse response) {
+    public TokenResponseDto logIn(LoginRequestDto req) {
         Member member = memberRepository.findByUsername(req.getUsername()).orElseThrow(() -> {
             return new LoginFailureException();
         });
@@ -74,9 +67,6 @@ public class AuthService {
         refreshTokenRepository.save(refreshToken);
 
 
-        response.setHeader("Authorization","Bearer : " +  tokenDto.getAccessToken());
-        response.setHeader("ACCESS_TOKEN_EXPIRE_TIME", String.valueOf(tokenDto.getAccessTokenExpiresIn()));
-
         TokenResponseDto tokenResponseDto = TokenResponseDto.builder()
                 .accessToken(tokenDto.getAccessToken())
                 .refreshToken(tokenDto.getRefreshToken())
@@ -91,7 +81,7 @@ public class AuthService {
 
 
     @Transactional
-    public TokenResponseDto reissue(TokenRequestDto tokenRequestDto, HttpServletResponse response) {
+    public TokenResponseDto reissue(TokenRequestDto tokenRequestDto) {
 //         1. Refresh Token 검증
         if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
             throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
@@ -113,22 +103,15 @@ public class AuthService {
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
 
-
         // 6. 저장소 정보 업데이트
         RefreshToken newRefreshToken = refreshToken.updateValue(tokenDto.getRefreshToken());
         refreshTokenRepository.save(newRefreshToken);
 
-        response.setHeader("Authorization","Bearer : "  + tokenDto.getRefreshToken());
-        response.setHeader("REFRESH_TOKEN_EXPIRE_TIME", String.valueOf(tokenDto.getAccessTokenExpiresIn()));
-
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         TokenResponseDto tokenResponseDto = TokenResponseDto.builder()
                 .accessToken(tokenDto.getAccessToken())
                 .refreshToken(tokenDto.getRefreshToken())
-                .username(username)
                 .build();
-
 
         return tokenResponseDto;
     }
@@ -140,11 +123,12 @@ public class AuthService {
 
     }
 
+
     private void validatePassword(LoginRequestDto loginRequestDto, Member member) {
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
             throw new LoginFailureException();
         }
     }
-    }
+}
 
 
