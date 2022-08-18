@@ -1,9 +1,6 @@
 package com.week06.cotudying_project.exception.advice;
 
-import com.week06.cotudying_project.exception.LoginFailureException;
-import com.week06.cotudying_project.exception.MemberNotEqualsException;
-import com.week06.cotudying_project.exception.MemberNotFoundException;
-import com.week06.cotudying_project.exception.MemberUsernameAlreadyExistsException;
+import com.week06.cotudying_project.exception.*;
 import com.week06.cotudying_project.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -52,7 +49,13 @@ public class ExceptionAdvice {
         return Response.failure(409, e.getMessage() + "은 중복된 아이디 입니다.");
     }
 
-
+    // 404 응답
+    // 게시글 찾기 실패
+    @ExceptionHandler(BoardNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response boardNotFoundException() {
+        return Response.failure(404, "게시글을 찾을 수 없습니다.");
+    }
 
     // 404 응답
     // 요청한 자원을 찾을 수 없음

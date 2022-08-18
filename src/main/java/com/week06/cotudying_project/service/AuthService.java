@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +48,7 @@ public class AuthService {
 
 
     @Transactional
-    public TokenResponseDto logIn(LoginRequestDto req,HttpServletResponse response) {
+    public TokenResponseDto logIn(LoginRequestDto req, HttpServletResponse response) {
         Member member = memberRepository.findByUsername(req.getUsername()).orElseThrow(() -> {
             return new LoginFailureException();
         });
@@ -73,7 +74,7 @@ public class AuthService {
         refreshTokenRepository.save(refreshToken);
 
 
-        response.setHeader("Authorization","Bearer" +  tokenDto.getAccessToken());
+        response.setHeader("Authorization","Bearer : " +  tokenDto.getAccessToken());
         response.setHeader("ACCESS_TOKEN_EXPIRE_TIME", String.valueOf(tokenDto.getAccessTokenExpiresIn()));
 
         TokenResponseDto tokenResponseDto = TokenResponseDto.builder()
@@ -90,7 +91,7 @@ public class AuthService {
 
 
     @Transactional
-    public TokenResponseDto reissue(TokenRequestDto tokenRequestDto, MemberDto memberDto,HttpServletResponse response) {
+    public TokenResponseDto reissue(TokenRequestDto tokenRequestDto, HttpServletResponse response) {
 //         1. Refresh Token 검증
         if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
             throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
@@ -117,17 +118,17 @@ public class AuthService {
         RefreshToken newRefreshToken = refreshToken.updateValue(tokenDto.getRefreshToken());
         refreshTokenRepository.save(newRefreshToken);
 
-        response.setHeader("Authorization","Bearer" + tokenDto.getAccessToken());
-        response.setHeader("ACCESS_TOKEN_EXPIRE_TIME", String.valueOf(tokenDto.getAccessTokenExpiresIn()));
+        response.setHeader("Authorization","Bearer : "  + tokenDto.getRefreshToken());
+        response.setHeader("REFRESH_TOKEN_EXPIRE_TIME", String.valueOf(tokenDto.getAccessTokenExpiresIn()));
 
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         TokenResponseDto tokenResponseDto = TokenResponseDto.builder()
                 .accessToken(tokenDto.getAccessToken())
                 .refreshToken(tokenDto.getRefreshToken())
-                .id(memberDto.getId())
-                .username(memberDto.getUsername())
-                .nickname(memberDto.getNickname())
+                .username(username)
                 .build();
+
 
         return tokenResponseDto;
     }

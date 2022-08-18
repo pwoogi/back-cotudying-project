@@ -1,9 +1,9 @@
 
 spring:
   datasource:
-    url: jdbc:mysql://project-database.cewnbcwdkrvh.ap-northeast-2.rds.amazonaws.com:3306/myprojectdb
-    username: pwoogi
-    password: gusdnr89ok!M
+    url: jdbc:mysql://:3306/myprojectdb
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -29,7 +29,7 @@ spring:
 # Secret 값은 특정 문자열을 Base64 로 인코딩한 값 사용 (아래 명령어를 터미널에 쳐보면 그대로 나옴)
 # $ echo 'spring-boot-security-jwt-tutorial-jiwoon-spring-boot-security-jwt-tutorial' | base64
 jwt:
-  secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+  secret: 
 
 
 

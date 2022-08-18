@@ -40,8 +40,8 @@ public class MainService {
 
 
         List<BoardInfo> boardInfoList = boardInfoRepository.findAllByMember(member);
-        for (int i = 0; i < boardInfoList.size(); i++) {
-            if(boardInfoList.get(i).getBoard().equals(board)) {
+        for (BoardInfo info : boardInfoList) {
+            if (info.getBoard().equals(board)) {
                 throw new IllegalArgumentException("이미 등록된 유저입니다.");
             }
         }
@@ -81,8 +81,8 @@ public class MainService {
 
         List<BoardInfo> boardInfoList = boardInfoRepository.findAllByBoard(board);
 
-        for (int i = 0; i < boardInfoList.size(); i++) {
-            memberId.add(boardInfoList.get(i).getMember().getId());
+        for (BoardInfo boardInfo : boardInfoList) {
+            memberId.add(boardInfo.getMember().getId());
         }
 
         boardCreateResponse.setId(board.getId());
